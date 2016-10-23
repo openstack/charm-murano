@@ -1,0 +1,13 @@
+name: murano
+maintainer: OpenStack Charmers <openstack-charmers@list.ubuntu.com>
+summary: OpenStack Application Catalog Service 
+description: |
+  The Murano Project introduces an application catalog to OpenStack, 
+  enabling application developers and cloud administrators to publish
+  various cloud-ready applications in a browsable categorized catalog
+tags:
+  - openstack
+series:
+  - xenial
+  - trusty
+  - yakkety

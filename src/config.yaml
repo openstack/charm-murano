@@ -1,0 +1,29 @@
+options:
+  rabbit-user:
+    default: murano
+    type: string
+    description: Username used to access rabbitmq queue.
+  rabbit-vhost:
+    default: openstack 
+    type: string
+    description: RabbitMQ virtual host to request access on rabbitmq-server.
+  database-user:
+    default: murano
+    type: string
+    description: Database username.
+  database:
+    default: murano
+    type: string
+    description: Murano database name.
+  debug:
+    default: False
+    type: boolean
+    description: Enable debug logging
+  verbose:
+    default: False
+    type: boolean
+    description: Enable verbose logging
+  region:
+    default: RegionOne
+    type: string
+    description: OpenStack Region

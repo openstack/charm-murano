@@ -27,3 +27,11 @@ options:
     default: RegionOne
     type: string
     description: OpenStack Region
+  ext-network:
+    default: ext-net
+    type": string
+    description: External network to connect
+  router:
+    default: default-router
+    type: string
+    description: Default router to connect

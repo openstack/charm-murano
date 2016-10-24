@@ -29,7 +29,7 @@ options:
     description: OpenStack Region
   ext-network:
     default: ext-net
-    type": string
+    type: string
     description: External network to connect
   router:
     default: default-router

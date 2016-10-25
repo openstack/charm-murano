@@ -14,6 +14,7 @@
 
 import charms_openstack.charm as charm
 import charms.reactive as reactive
+import charmhelpers.core.hookenv as hookenv
 
 # This charm's library contains all of the handler code associated with
 # sdn_charm
@@ -28,9 +29,13 @@ charm.use_defaults(
     'config.changed',
     'update-status')
 
-@reactive.when('shared-db.available')
-@reactive.when('identity-service.available')
-@reactive.when('amqp.available')
+COMPLETE_INTERFACE_STATES = [
+    'shared-db.available',
+    'identity-service.available',
+    'amqp.available',
+]
+
+@reactive.when(*COMPLETE_INTERFACE_STATES)
 def render_config(*args):
     """Render the configuration for charm when all the interfaces are
     available.
@@ -38,10 +43,17 @@ def render_config(*args):
     with charm.provide_charm_instance() as charm_class:
         charm_class.render_with_interfaces(args)
         charm_class.assess_status()
+    murano.render_novarc_config(args)
     reactive.set_state('config.rendered')
 
 # db_sync checks if sync has been done so rerunning is a noop
 @reactive.when('config.rendered')
-def init_db():
+def init_db(*args):
     with charm.provide_charm_instance() as charm_class:
         charm_class.db_sync()
+
+@reactive.when_not('io-murano.imported')
+@reactive.when(*COMPLETE_INTERFACE_STATES)
+def import_io_murano(*args):
+    murano.import_io_murano()
+    reactive.set_state('io-murano.imported')

@@ -1,3 +1,4 @@
+import os
 import socket
 import subprocess
 
@@ -8,6 +9,20 @@ import charms_openstack.ip as os_ip
 
 # import charms_openstack.sdn.odl as odl
 # import charms_openstack.sdn.ovs as ovs
+
+RC_FILE = '/root/novarc'
+
+def get_environment(env):
+    with open("/root/novarc", "r") as ins:
+        for line in ins:
+            k, v = line.replace('export', '').replace(" ", "").split('=')
+            env[k] = v.strip()
+    return env
+
+def run_command(cmd):
+    os_env = get_environment(os.environ.copy())
+    subprocess.check_call(cmd, env=os_env)
+
 
 def register_endpoints(keystone):
     """When the keystone interface connects, register this unit in the keystone
@@ -66,6 +81,22 @@ def assess_status():
     """
     MuranoCharm.singleton.assess_status()
 
+def render_novarc_config(interfaces_list):
+    """Use the singleton from the MuranoCharm to run render_novarc_config
+
+    @param interfaces_list: List of instances of interface classes.
+    @returns: None
+    """
+    MuranoCharm.singleton.render_novarc_config(interfaces_list)
+
+def import_io_murano():
+    """Use the singleton from the MuranoCharm to run import io-murano
+    package
+    
+    @returns: None
+    """
+    MuranoCharm.singleton.import_io_murano()
+
 
 class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
     
@@ -92,10 +123,12 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
     }
 
     service_type = 'murano'
-    # Note that the hsm interface is optional - defined in config.yaml
     required_relations = ['shared-db', 'amqp', 'identity-service']
 
-    restart_map = {'/etc/murano/murano.conf': services}
+    restart_map = {
+        '/etc/murano/murano.conf': services,
+        RC_FILE: [''],
+    }
 
     ha_resources = ['vips', 'haproxy']
 
@@ -117,7 +150,29 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
         """
         self.configure_source()
         super(MuranoCharm, self).install()
+
+    def render_novarc_config(self, interfaces_list):
+        """Render novarc config to bootstrap Murano service
+
+        @returns None
+        """
+        configs = [RC_FILE]
+        self.render_with_interfaces(
+            interfaces_list,
+            configs=configs)
+ 
+
+    def import_io_murano(self):
+        """Install Core libary io-murano
+
+        @returns None
+        """
+        io_murano_lib = "/usr/share/murano-common/io.murano.zip"
+        if os.path.isfile(io_murano_lib):
+           cmd = ['murano', 'package-import', io_murano_lib]
+           run_command(cmd)
     
+
     def get_amqp_credentials(self):
         """Provide the default amqp username and vhost as a tuple.
 

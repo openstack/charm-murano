@@ -14,6 +14,10 @@ Murano relies on services from the mysql/percona, rabbitmq-server and keystone c
     juju add-relation murano mysql
     juju add-relation murano keystone
 
+# Build
+  $ git clone https://github.com/viswesn/charm-murano
+  $ cd charm-murano
+  $ charm build -s xenial -o build src
 
 # Bugs
 

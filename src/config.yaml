@@ -28,10 +28,10 @@ options:
     type: string
     description: OpenStack Region
   ext-network:
-    default: ext-net
+    default: ext_net
     type: string
     description: External network to connect
   router:
-    default: default-router
+    default: default_router
     type: string
     description: Default router to connect

@@ -48,12 +48,13 @@ def render_config(*args):
 
 # db_sync checks if sync has been done so rerunning is a noop
 @reactive.when('config.rendered')
-def init_db(*args):
+def init_db():
     with charm.provide_charm_instance() as charm_class:
         charm_class.db_sync()
 
 @reactive.when_not('io-murano.imported')
+@reactive.when('config.rendered')
 @reactive.when(*COMPLETE_INTERFACE_STATES)
-def import_io_murano(*args):
+def import_io_murano():
     murano.import_io_murano()
     reactive.set_state('io-murano.imported')

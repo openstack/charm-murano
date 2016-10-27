@@ -55,6 +55,6 @@ def init_db():
 @reactive.when_not('io-murano.imported')
 @reactive.when('config.rendered')
 @reactive.when(*COMPLETE_INTERFACE_STATES)
-def import_io_murano():
+def import_io_murano(*args):
     murano.import_io_murano()
     reactive.set_state('io-murano.imported')

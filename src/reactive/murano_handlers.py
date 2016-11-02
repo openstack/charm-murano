@@ -46,11 +46,13 @@ def render_config(*args):
     murano.render_novarc_config(args)
     reactive.set_state('config.rendered')
 
+
 # db_sync checks if sync has been done so rerunning is a noop
 @reactive.when('config.rendered')
 def init_db():
     with charm.provide_charm_instance() as charm_class:
         charm_class.db_sync()
+
 
 @reactive.when_not('io-murano.imported')
 @reactive.when(*COMPLETE_INTERFACE_STATES)
@@ -58,3 +60,14 @@ def init_db():
 def import_io_murano(*args):
     murano.import_io_murano()
     reactive.set_state('io-murano.imported')
+
+
+@reactive.when('ha.connected')
+def cluster_connected(hacluster):
+    murano.configure_ha_resources(hacluster)
+    murano.assess_status()
+
+
+@reactive.hook('upgrade-charm')
+def upgrade_charm():
+    murano.install()

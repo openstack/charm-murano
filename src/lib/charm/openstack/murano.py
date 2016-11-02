@@ -107,7 +107,7 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
     release = 'mitaka'
 
     # List of packages to install for this charm
-    packages = ['murano-api', 'murano-engine', 'python-pymysql']
+    packages = ['murano-api', 'murano-engine', 'python-pymysql', 'python-apt']
    
     # Init services the charm manages
     services = ['haproxy', 'murano-api', 'murano-engine']

@@ -53,8 +53,8 @@ def init_db():
         charm_class.db_sync()
 
 @reactive.when_not('io-murano.imported')
-@reactive.when('config.rendered')
 @reactive.when(*COMPLETE_INTERFACE_STATES)
+@reactive.when('config.rendered')
 def import_io_murano(*args):
     murano.import_io_murano()
     reactive.set_state('io-murano.imported')

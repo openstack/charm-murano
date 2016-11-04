@@ -35,3 +35,7 @@ options:
     default: default_router
     type: string
     description: Default router to connect
+  default_dns:
+    default: 8.8.8.8
+    type: string
+    description: Default DNS configuration

@@ -8,8 +8,8 @@ description: |
 tags:
 - openstack
 series:
-- trusty
 - xenial
+- trusty
 - yakkety
 requires:
   shared-db:

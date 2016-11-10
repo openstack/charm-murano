@@ -1,10 +1,10 @@
 {% if amqp.host or amqp.hosts -%}
-rabbit_userid = {{ amqp.username }}
-rabbit_password = {{ amqp.password }}
-rabbit_virtual_host = {{ amqp.vhost }}
 {% if amqp.hosts -%}
 rabbit_hosts = {{ amqp.hosts }}
 {% else -%}
 rabbit_host = {{ amqp.host }}
 {% endif -%}
+rabbit_userid = {{ amqp.username }}
+rabbit_password = {{ amqp.password }}
+rabbit_virtual_host = {{ amqp.vhost }}
 {% endif -%}

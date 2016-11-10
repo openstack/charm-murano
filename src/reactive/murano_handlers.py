@@ -14,11 +14,8 @@
 
 import charms_openstack.charm as charm
 import charms.reactive as reactive
-import charmhelpers.core.hookenv as hookenv
 
-# This charm's library contains all of the handler code associated with
-# sdn_charm
-import charm.openstack.murano as murano  # noqa
+#import charm.openstack.murano as murano
 
 charm.use_defaults(
     'charm.installed',
@@ -43,7 +40,6 @@ def render_config(*args):
     with charm.provide_charm_instance() as charm_class:
         charm_class.render_with_interfaces(args)
         charm_class.assess_status()
-    murano.render_novarc_config(args)
     reactive.set_state('config.rendered')
 
 
@@ -54,20 +50,8 @@ def init_db():
         charm_class.db_sync()
 
 
-@reactive.when_not('io-murano.imported')
-@reactive.when(*COMPLETE_INTERFACE_STATES)
-@reactive.when('config.rendered')
-def import_io_murano(*args):
-    murano.import_io_murano()
-    reactive.set_state('io-murano.imported')
-
-
 @reactive.when('ha.connected')
 def cluster_connected(hacluster):
-    murano.configure_ha_resources(hacluster)
-    murano.assess_status()
-
-
-@reactive.hook('upgrade-charm')
-def upgrade_charm():
-    murano.install()
+    with charm.provide_charm_instance() as charm_class:
+        charm_class.configure_ha_resources(hacluster)
+        charm_class.assess_status()

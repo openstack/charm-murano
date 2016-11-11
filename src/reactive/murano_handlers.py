@@ -15,7 +15,7 @@
 import charms_openstack.charm as charm
 import charms.reactive as reactive
 
-#import charm.openstack.murano as murano
+import charm.openstack.murano as murano
 
 charm.use_defaults(
     'charm.installed',

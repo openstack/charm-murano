@@ -3,8 +3,6 @@ import charmhelpers.core.hookenv as hookenv
 import charms_openstack.charm
 import charms_openstack.ip as os_ip
 
-RC_FILE = '/root/novarc'
-
 
 class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
     # Internal name of charm
@@ -34,7 +32,6 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
 
     restart_map = {
         '/etc/murano/murano.conf': services,
-        RC_FILE: [''],
     }
 
     ha_resources = ['vips', 'haproxy']

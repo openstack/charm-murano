@@ -15,7 +15,10 @@
 import charms_openstack.charm as charm
 import charms.reactive as reactive
 
+# We need to import charm.openstack.murano to avoid
+# No derived OpenStackCharm() classes registered
 import charm.openstack.murano as murano
+assert murano
 
 charm.use_defaults(
     'charm.installed',
@@ -31,6 +34,7 @@ COMPLETE_INTERFACE_STATES = [
     'identity-service.available',
     'amqp.available',
 ]
+
 
 @reactive.when(*COMPLETE_INTERFACE_STATES)
 def render_config(*args):

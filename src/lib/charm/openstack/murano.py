@@ -1,7 +1,3 @@
-import os
-import socket
-import subprocess
-
 import charmhelpers.contrib.openstack.utils as ch_utils
 import charmhelpers.core.hookenv as hookenv
 import charms_openstack.charm
@@ -9,8 +5,8 @@ import charms_openstack.ip as os_ip
 
 RC_FILE = '/root/novarc'
 
+
 class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
-    
     # Internal name of charm
     service_name = name = 'murano'
 
@@ -19,7 +15,7 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
 
     # List of packages to install for this charm
     packages = ['murano-api', 'murano-engine', 'python-pymysql', 'python-apt']
-   
+
     # Init services the charm manages
     services = ['haproxy', 'murano-api', 'murano-engine']
 
@@ -43,7 +39,8 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
 
     ha_resources = ['vips', 'haproxy']
 
-    sync_cmd = ['murano-db-manage', '--config-file', '/etc/murano/murano.conf', 'upgrade']
+    sync_cmd = ['murano-db-manage', '--config-file',
+                '/etc/murano/murano.conf', 'upgrade']
 
     def __init__(self, release=None, **kwargs):
         """Custom initialiser for class
@@ -63,7 +60,7 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
 
     def get_database_setup(self):
         """Provide the default database credentials as a list of 3-tuples
-    
+
         returns a structure of:
         [
             {'database': <database>,
@@ -71,14 +68,12 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
             'hostname': <hostname of this unit>
             'prefix': <the optional prefix for the database>, },
         ]
-        
+
         :returns [{'database': ...}, ...]: credentials for multiple databases
         """
         return [
-                dict(
-                    database=self.config['database'],
-                    username=self.config['database-user'],
-                    hostname=hookenv.unit_private_ip(), )
+            dict(
+                database=self.config['database'],
+                username=self.config['database-user'],
+                hostname=hookenv.unit_private_ip(), )
         ]
-
-

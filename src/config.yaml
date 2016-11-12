@@ -31,13 +31,13 @@ options:
     default: ext_net
     type: string
     description: |
-      The external network to be connect to download the application packages
+      The external network to connect for downloading the application packages
       on launch of VMs spawned by Murano.
   router:
     default: default_router
     type: string
     description: |
-      The default router to bridge the external network and isolated network
+      The default router is to bridge the external network and isolated network
       created by Murano for each environment.
   default_dns:
     default: 8.8.8.8

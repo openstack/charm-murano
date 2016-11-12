@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Amulet tests on a basic SDN Charm deployment on xenial-mitaka."""
+"""Amulet tests on a basic Murano Charm deployment on xenial-mitaka."""
 
-from basic_deployment import SDNCharmDeployment
+from basic_deployment import MuranoBasicDeployment
 
 if __name__ == '__main__':
-    deployment = SDNCharmDeployment(series='xenial')
+    deployment = MuranoBasicDeployment(series='xenial')
     deployment.run_tests()

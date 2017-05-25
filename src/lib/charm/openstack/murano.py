@@ -46,7 +46,7 @@ class MuranoCharm(charms_openstack.charm.HAOpenStackCharm):
         """
         if release is None:
             release = ch_utils.os_release('python-keystonemiddleware')
-        super(MuranoCharm, self).__init__(release=release, **kwargs)
+        super().__init__(release=release, **kwargs)
 
     def get_amqp_credentials(self):
         """Provide the default amqp username and vhost as a tuple.

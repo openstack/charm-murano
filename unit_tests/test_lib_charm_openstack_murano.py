@@ -72,15 +72,7 @@ class Helper(unittest.TestCase):
 
 class TestMuranoCharm(Helper):
 
-    def test_install(self):
-        self.patch(murano.MuranoCharm, 'configure_source')
-        a = murano.MuranoCharm(release='mitaka')
-        a.install()
-        self.configure_source.assert_called_with()
-
     def test__init__(self):
-        self.patch(murano.MuranoCharm,
-                   'set_config_defined_certs_and_keys')
         self.patch(murano.ch_utils, 'os_release')
         murano.MuranoCharm()
         self.os_release.assert_called_once_with('python-keystonemiddleware')

@@ -1,0 +1,8 @@
+Code-Review+2: Frode Nordahl <frode.nordahl@canonical.com>
+Workflow+1: Frode Nordahl <frode.nordahl@canonical.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 27 Feb 2019 09:54:04 +0000
+Reviewed-on: https://review.openstack.org/614911
+Project: openstack/charm-murano
+Branch: refs/heads/master
